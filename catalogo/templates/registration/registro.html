@@ -1,0 +1,3 @@
+{% extends 'catalogo/base.html' %}
+{% block title %}Crear cuenta | El Tornillo{% endblock %}
+{% block content %}<div class="contenedor pagina-interior"><div class="formulario-panel estrecho"><a class="volver" href="{% url 'login' %}?next={{ next|urlencode }}">Volver a iniciar sesión</a><h1>Crea tu cuenta</h1><p class="texto-secundario">Guarda tus pedidos y prepara tu próximo proyecto.</p><form method="post">{% csrf_token %}{% include 'catalogo/componentes/campos.html' %}<input type="hidden" name="next" value="{{ next }}"><button type="submit" class="boton boton-primario boton-ancho">Crear cuenta</button></form></div></div>{% endblock %}
