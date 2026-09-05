@@ -23,5 +23,14 @@ def ilustracion(producto):
 
 
 @register.filter
+def imagen_producto(producto):
+    """Devuelve la foto optimizada de los productos originales del catálogo."""
+    producto_id = producto.get("id")
+    if isinstance(producto_id, int) and 1 <= producto_id <= 40:
+        return f"catalogo/img/productos/producto-{producto_id:02d}.webp"
+    return ""
+
+
+@register.filter
 def pesos(valor):
     return "$" + f"{int(valor):,}".replace(",", ".")

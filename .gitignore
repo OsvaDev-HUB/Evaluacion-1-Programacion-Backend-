@@ -35,3 +35,6 @@ data/tienda.local.json
 data/tienda.local.lock
 data/usuarios.lock
 tmp/
+
+# Fotografías originales sin optimizar
+Public/

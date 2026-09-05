@@ -120,11 +120,13 @@ input::placeholder { color: #637281; }
 .grilla-productos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 17px; }
 .tarjeta-producto { border: 1px solid var(--borde); border-radius: 7px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; background: var(--blanco); }
 .tarjeta-producto:hover { border-color: #97a9b8; }
-.imagen-tarjeta { position: relative; background: #f5f7f8; display: grid; place-items: center; height: 172px; }
+.imagen-tarjeta { position: relative; background: #f5f7f8; display: grid; place-items: center; height: 172px; flex-shrink: 0; min-width: 0; overflow: hidden; }
+.imagen-producto { display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; max-width: 100%; object-fit: contain; object-position: center; background: var(--blanco); }
+.imagen-tarjeta .imagen-producto { position: absolute; inset: 0; padding: 7px; }
 .ilustracion-producto { width: 100%; height: 100%; max-width: 240px; max-height: 200px; }
 .imagen-tarjeta .ilustracion-producto { width: 91%; height: 91%; }
 .etiqueta-agotado { position: absolute; top: 12px; left: 12px; background: #e2e6e9; color: #4e5b68; font-size: .65rem; font-weight: 650; border-radius: 3px; padding: 4px 9px; }
-.producto-agotado .ilustracion-producto { opacity: .58; filter: grayscale(.7); }
+.producto-agotado .imagen-producto, .producto-agotado .ilustracion-producto { opacity: .58; filter: grayscale(.7); }
 .tarjeta-contenido { padding: 16px 14px 14px; flex: 1; display: flex; flex-direction: column; }
 .categoria-producto { color: var(--gris); font-size: .69rem; margin-bottom: 7px; }
 .tarjeta-contenido h3 { font-family: inherit; font-size: .87rem; line-height: 1.45; font-weight: 650; min-height: 2.9em; margin-bottom: 11px; }
@@ -152,7 +154,7 @@ input::placeholder { color: #637281; }
 .migas a:hover { text-decoration: underline; }
 .ficha-producto { display: grid; grid-template-columns: 1fr 1fr; gap: 65px; align-items: center; }
 .ficha-imagen { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--fondo); border-radius: 10px; min-height: 430px; padding: 25px; }
-.ficha-imagen .ilustracion-producto { width: 100%; max-width: 440px; height: 335px; max-height: none; }
+.ficha-imagen .imagen-producto, .ficha-imagen .ilustracion-producto { width: 100%; max-width: 440px; height: 335px; max-height: none; }
 .ficha-imagen small { font-size: .75rem; color: var(--gris); }
 .ficha-contenido h1 { font-size: clamp(2rem, 3vw, 2.7rem); max-width: 22ch; margin: 13px 0 20px; }
 .descripcion-producto { color: var(--gris); font-size: .95rem; line-height: 1.7; }
@@ -199,7 +201,8 @@ input::placeholder { color: #637281; }
 .compra-layout { display: grid; grid-template-columns: minmax(0, 1fr) 350px; gap: 32px; align-items: start; }
 .items-carrito { border-top: 1px solid var(--borde); }
 .item-carrito { display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 22px; align-items: start; padding-block: 26px; border-bottom: 1px solid var(--borde); }
-.miniatura-producto { width: 120px; height: 115px; background: var(--fondo); border-radius: 5px; flex-shrink: 0; }
+.miniatura-producto { position: relative; display: grid; place-items: center; width: 120px; height: 115px; overflow: hidden; background: var(--fondo); border-radius: 5px; flex-shrink: 0; }
+.miniatura-producto .imagen-producto { position: absolute; inset: 0; padding: 5px; }
 .item-informacion h2 { font-size: 1rem; margin-bottom: 10px; }
 .item-informacion > p { font-size: .85rem; }
 .cantidad-carrito { display: flex; align-items: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
@@ -297,6 +300,10 @@ input::placeholder { color: #637281; }
     .resumen-inventario { grid-template-columns: repeat(2,1fr); }.resumen-inventario > div { padding: 18px; }.resumen-inventario > div:nth-child(3) { border-left: 0; }.resumen-inventario > div:nth-child(n+3) { border-top: 1px solid var(--borde); }.tabs-gestion { gap: 18px; }.tabs-gestion a { font-size: .8rem; }.filtros-gestion { flex-wrap: wrap; }.filtros-gestion > div:first-child { flex-basis: 100%; min-width: 100%; }.filtros-gestion select { width: 100%; }.fila-pedido { gap: 13px; }.fila-pedido .boton { width: 100%; }.acciones-formulario { gap: 10px; }.estado-vacio { padding: 42px 20px; }
 }
 @media (max-width: 360px) { .contenedor { width: calc(100% - 24px); }.grilla-productos, .relacionados .grilla-productos { grid-template-columns: 1fr; }.imagen-tarjeta { height: 200px; }.tarjeta-contenido h3 { min-height: 0; }.boton-compra { font-size: .8rem; }.portada-texto { padding-inline: 20px; }.portada-texto h1 { font-size: 2.2rem; }.marca-texto strong { font-size: 1.3rem; }.acciones-cuenta { gap: 4px; } }
+/* La foto del detalle ocupa todo el ancho y conserva su proporción original. */
+.ficha-imagen:has(> .imagen-producto) { padding: 0; min-height: 0; overflow: hidden; }
+.ficha-imagen .imagen-producto { max-width: none; height: auto; }
+.ficha-imagen:has(> .imagen-producto) small { padding: 8px 12px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }
 /* El buscador conserva su superficie aunque se apliquen los estilos generales de inputs. */
 .buscador-principal input[type='search'] { border: 0; background: transparent; border-radius: 6px 0 0 6px; }
