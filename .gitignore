@@ -38,3 +38,6 @@ tmp/
 
 # Fotografías originales sin optimizar
 Public/
+
+# Archivos locales de diseño y contexto de Impeccable
+.impeccable/

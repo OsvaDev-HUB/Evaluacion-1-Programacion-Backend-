@@ -4,24 +4,23 @@ La portada sirve para comprar: buscador, categorías, productos, precio y carrit
 
 ## Sistema visual
 
-- Azul taller `#16324F`: cabecera, texto principal y botones de compra.
-- Amarillo herramienta `#F5C542`: marca y portada, con texto azul oscuro.
-- Blanco `#FFFFFF`: superficies de producto y formularios.
-- Gris zinc `#F3F5F7`: fondo de la tienda y escenarios de las ilustraciones.
-- Gris acero `#526171`: texto secundario.
-- Verde disponibilidad `#246345`: estados con stock; los agotados también tienen texto explícito.
-- Tipografía: Trebuchet MS para títulos y marca, sistema sans-serif para lectura. Fuentes locales para funcionar sin servicios externos.
-- Contenido alineado a la izquierda, ancho máximo de 1280 px, catálogo de cuatro columnas que pasa a dos y luego una en pantallas pequeñas.
+La dirección elegida por el usuario es «A medida»: un catálogo de taller con grafito, aluminio claro, blanco y naranja. El sistema normativo de colores, tipografía y componentes está en [DESIGN.md](../.impeccable/DESIGN.md), extraído del CSS implementado. [El sidecar de Impeccable](../.impeccable/design.json) contiene estados, cortes de pantalla y ejemplos de componentes; sus rampas de color sirven únicamente para previsualización.
 
-```text
-Marca       Buscar productos          Mi cuenta / Carrito
-Tienda      Categorías de ferretería
-Mensaje de tienda + acción            Ilustraciones de herramientas
-Categorías / disponibilidad | Productos en tarjetas / ordenar
-Pie de tienda
-```
+- Grafito para cabecera, pie y texto principal; blanco para productos y formularios; aluminio para el fondo y los paneles.
+- Naranja para acciones y selección. Verde para disponibilidad y confirmación; rojo para errores, agotados y acciones destructivas, siempre acompañado por texto.
+- League Gothic Regular para marca y titulares expresivos; Barlow Condensed Medium/SemiBold para encabezados; Arial, Segoe UI y sans-serif para lectura. Las dos familias condensadas se sirven localmente con sus licencias OFL.
+- Celdas de producto contiguas con bordes finos y esquinas rectas. Los controles tienen radio de 2px y altura mínima de 44px. La notificación flotante es la única superficie con sombra.
+- Contenedor de hasta 1552px. El catálogo pasa de cuatro columnas a tres hasta 1100px, dos hasta 850px y una hasta 359px. A 640px, los filtros se convierten en un desplegable sobre los resultados y los márgenes laterales son de 16px.
 
-La búsqueda de la habilidad UI/UX devolvió recomendaciones de otros sectores incluso tras acotar la consulta. Se toman sus reglas generales de interacción como respaldo, conservando una dirección propia para la ferretería. Se descartan el patrón comercial B2B y la paleta de farmacia sugeridos: las acciones principales son explorar productos y añadir al carrito. Las ilustraciones vectoriales son referenciales y se identifican como tales en el detalle.
+La cabecera agrupa marca, búsqueda y cuenta/carrito; la navegación de categorías ocupa una franja inferior. En escritorio, el índice lateral acompaña al titular «Manos a la obra.», el resumen, el orden y la retícula de productos. Su ancho real es 264px, con ajustes a 220px y 194px; los 240px de la referencia inicial no son una constante del código final.
+
+Se conservan las fotografías referenciales existentes y sus originales en `Public/Products/`; el rediseño no generó nuevas fotografías de producto con IA. Las imágenes se contienen completas sobre blanco. El SVG existente actúa como respaldo cuando no hay foto y la ficha identifica el carácter referencial de la imagen. Los colores propios de esos recursos no definen la paleta de la interfaz.
+
+## Interacción y adaptación
+
+Agregar al carrito conserva el formulario y añade confirmación mediante JavaScript: estado «Agregando…», resultado «Agregado» en verde durante 1600ms, contador actualizado y aviso accesible con enlace al carrito. Los errores muestran una explicación y restauran el botón. La interfaz mantiene foco visible, salto al contenido, etiquetas y navegación semántica. El movimiento es breve y se desactiva cuando el usuario pide reducirlo.
+
+Compra se apila a 850px; ficha y acceso, a 640px. En acceso móvil aparece primero el formulario. Inventario mantiene tabla con desplazamiento horizontal local y un resumen de dos columnas en móvil. Estas adaptaciones comparten el mismo CSS que la tienda.
 
 ## Flujos
 

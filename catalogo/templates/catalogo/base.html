@@ -4,47 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Compra herramientas y materiales para tu próximo proyecto en Ferretería El Tornillo.">
-    <meta name="theme-color" content="#16324f">
+    <meta name="description" content="Herramientas y materiales para tu próximo proyecto. Explora el catálogo de Ferretería El Tornillo.">
+    <meta name="theme-color" content="#222724">
     <title>{% block title %}Ferretería El Tornillo | Tienda online{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'catalogo/css/estilos.css' %}?v=3-foto-detalle">
-    <script src="{% static 'catalogo/js/catalogo.js' %}" defer></script>
+    <link rel="preload" href="{% static 'catalogo/fonts/LeagueGothic.ttf' %}" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="{% static 'catalogo/css/estilos.css' %}?v=4-a-medida">
+    <script src="{% static 'catalogo/js/catalogo.js' %}?v=4-a-medida" defer></script>
 </head>
 <body>
     {% include 'catalogo/componentes/iconos.html' %}
     <a class="salto-contenido" href="#contenido">Saltar al contenido</a>
-    <div class="barra-superior"><div class="contenedor"><span>Tu ferretería, ahora online</span><span>Herramientas y materiales para cada proyecto</span></div></div>
     <header class="encabezado-sitio">
         <div class="contenedor barra-navegacion">
             <a class="marca" href="{% url 'catalogo:lista' %}" aria-label="El Tornillo, inicio">
-                <span class="marca-sello"><svg class="icono" aria-hidden="true"><use href="#i-tool"/></svg></span>
-                <span class="marca-texto"><strong>El Tornillo<span class="punto-marca">.</span></strong><small>Ferretería</small></span>
+                <span class="marca-texto"><small>Ferretería</small><strong>El Tornillo</strong></span>
             </a>
             <form class="buscador-principal" action="{% url 'catalogo:lista' %}#productos" role="search">
                 <label class="solo-lectores" for="busqueda-global">Buscar en la tienda</label>
-                <input id="busqueda-global" type="search" name="q" value="{{ busqueda }}" placeholder="¿Qué necesitas para tu proyecto?">
+                <input id="busqueda-global" type="search" name="q" value="{{ busqueda }}" placeholder="Buscar herramientas y materiales">
                 <button type="submit" aria-label="Buscar productos"><svg class="icono" aria-hidden="true"><use href="#i-search"/></svg></button>
             </form>
             <nav class="acciones-cuenta" aria-label="Cuenta y carrito">
-                <a href="{% if user.is_authenticated %}{% url 'catalogo:cuenta' %}{% else %}{% url 'login' %}{% endif %}" class="acceso-cuenta" aria-label="Mi cuenta"><svg class="icono" aria-hidden="true"><use href="#i-user"/></svg><span><small>{% if user.is_authenticated %}Hola, {{ user.first_name|default:user.username }}{% else %}Bienvenido{% endif %}</small><strong>Mi cuenta</strong></span></a>
-                <a class="acceso-carrito" aria-label="Mi carrito" href="{% url 'catalogo:carrito' %}"><svg class="icono" aria-hidden="true"><use href="#i-cart"/></svg><span>Carrito</span><span class="contador-carrito" data-carrito-contador aria-live="polite">{{ cantidad_carrito }}</span></a>
+                <a href="{% if user.is_authenticated %}{% url 'catalogo:cuenta' %}{% else %}{% url 'login' %}{% endif %}" class="acceso-cuenta" aria-label="Mi cuenta">
+                    <svg class="icono" aria-hidden="true"><use href="#i-user"/></svg>
+                    <span>{% if user.is_authenticated %}<small>Hola, {{ user.first_name|default:user.username }}</small>{% endif %}<strong>Mi cuenta</strong></span>
+                </a>
+                <a class="acceso-carrito" aria-label="Mi carrito" href="{% url 'catalogo:carrito' %}">
+                    <svg class="icono" aria-hidden="true"><use href="#i-cart"/></svg><span>Carrito</span>
+                    <span class="contador-carrito" data-carrito-contador aria-live="polite">{{ cantidad_carrito }}</span>
+                </a>
             </nav>
         </div>
-        <nav class="navegacion-tienda" aria-label="Navegación principal"><div class="contenedor">
-            <a class="nav-tienda" href="{% url 'catalogo:lista' %}#productos"><svg class="icono" aria-hidden="true"><use href="#i-grid"/></svg> Todos los productos</a>
-            <a href="{% url 'catalogo:lista' %}?categoria=Herramientas+manuales#productos">Herramientas</a>
-            <a href="{% url 'catalogo:lista' %}?categoria=Construcci%C3%B3n#productos">Construcción</a>
-            <a href="{% url 'catalogo:lista' %}?categoria=Pinturas#productos">Pinturas</a>
-            <a href="{% url 'catalogo:lista' %}?categoria=Seguridad#productos">Seguridad</a>
-            {% if user.is_staff %}<a class="nav-gestion" href="{% url 'catalogo:gestion' %}">Administrar tienda</a>{% endif %}
-        </div></nav>
+        <nav class="navegacion-tienda" aria-label="Navegación principal">
+            <div class="contenedor">
+                <a class="nav-tienda" href="{% url 'catalogo:lista' %}#productos" {% if request.resolver_match.url_name == 'lista' and not categoria_actual %}aria-current="page"{% endif %}>Todo el catálogo</a>
+                <a href="{% url 'catalogo:lista' %}?categoria=Herramientas+manuales#productos" {% if categoria_actual == 'Herramientas manuales' %}aria-current="page"{% endif %}>Herramientas manuales</a>
+                <a href="{% url 'catalogo:lista' %}?categoria=Herramientas+el%C3%A9ctricas#productos" {% if categoria_actual == 'Herramientas eléctricas' %}aria-current="page"{% endif %}>Herramientas eléctricas</a>
+                <a href="{% url 'catalogo:lista' %}?categoria=Construcci%C3%B3n#productos" {% if categoria_actual == 'Construcción' %}aria-current="page"{% endif %}>Construcción</a>
+                <a href="{% url 'catalogo:lista' %}?categoria=Pinturas#productos" {% if categoria_actual == 'Pinturas' %}aria-current="page"{% endif %}>Pinturas</a>
+                <a href="{% url 'catalogo:lista' %}?categoria=Electricidad#productos" {% if categoria_actual == 'Electricidad' %}aria-current="page"{% endif %}>Electricidad</a>
+                <a href="{% url 'catalogo:lista' %}?categoria=Gasfiter%C3%ADa#productos" {% if categoria_actual == 'Gasfitería' %}aria-current="page"{% endif %}>Gasfitería</a>
+                <a href="{% url 'catalogo:lista' %}?categoria=Fijaciones#productos" {% if categoria_actual == 'Fijaciones' %}aria-current="page"{% endif %}>Fijaciones</a>
+                <a href="{% url 'catalogo:lista' %}?categoria=Seguridad#productos" {% if categoria_actual == 'Seguridad' %}aria-current="page"{% endif %}>Seguridad</a>
+                {% if user.is_staff %}<a class="nav-gestion" href="{% url 'catalogo:gestion' %}">Administrar tienda <svg class="icono" aria-hidden="true"><use href="#i-arrow"/></svg></a>{% endif %}
+            </div>
+        </nav>
     </header>
-    <main id="contenido">
+    <main id="contenido" tabindex="-1">
         {% if messages %}<div class="contenedor mensajes" role="status">{% for message in messages %}<p class="mensaje {{ message.tags }}">{{ message }}</p>{% endfor %}</div>{% endif %}
         {% block content %}{% endblock %}
     </main>
-    <div class="notificacion" id="notificacion" role="status" aria-live="polite" hidden><span data-mensaje></span><a href="{% url 'catalogo:carrito' %}">Ver carrito</a><button type="button" aria-label="Cerrar notificación">×</button></div>
-    <footer class="pie-sitio"><div class="contenedor pie-contenido"><div><a class="marca marca-pie" href="{% url 'catalogo:lista' %}"><strong>El Tornillo.</strong></a><p>Todo empieza con una buena herramienta.</p></div><nav aria-label="Enlaces del pie"><a href="{% url 'catalogo:lista' %}">Tienda</a><a href="{% url 'catalogo:carrito' %}">Mi carrito</a><a href="{% url 'login' %}?next={% url 'catalogo:gestion' %}">Acceso de administración</a></nav></div><div class="contenedor pie-legal"><span>Ferretería El Tornillo</span><span>Tienda de demostración · Precios en pesos chilenos</span></div></footer>
+    <div class="notificacion" id="notificacion" role="status" aria-live="polite" hidden>
+        <svg class="icono" aria-hidden="true" data-aviso-icono><use href="#i-check"/></svg>
+        <span data-mensaje></span><a href="{% url 'catalogo:carrito' %}">Ver carrito</a>
+        <button type="button" aria-label="Cerrar notificación">×</button>
+    </div>
+    <footer class="pie-sitio">
+        <div class="contenedor pie-contenido">
+            <div><a class="marca marca-pie" href="{% url 'catalogo:lista' %}"><strong>El Tornillo</strong></a><p>Todo empieza con una buena herramienta.</p></div>
+            <nav aria-label="Enlaces del pie"><a href="{% url 'catalogo:lista' %}">Catálogo</a><a href="{% url 'catalogo:carrito' %}">Mi carrito</a><a href="{% url 'login' %}?next={% url 'catalogo:gestion' %}">Acceso de administración</a></nav>
+        </div>
+        <div class="contenedor pie-legal"><span>Ferretería El Tornillo</span><span>Tienda de demostración · Precios en pesos chilenos</span></div>
+    </footer>
     {% block scripts %}{% endblock %}
 </body>
 </html>
