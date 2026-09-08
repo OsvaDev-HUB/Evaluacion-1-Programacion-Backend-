@@ -1,0 +1,85 @@
+{% load static %}
+<section class="presentacion" id="inicio" aria-labelledby="titulo-inicio" tabindex="-1">
+    <div class="contenedor presentacion-interior">
+        <div class="presentacion-texto">
+            <h1 id="titulo-inicio">Dale forma a tu próximo proyecto.</h1>
+            <p>Reparar tu casa, renovar un espacio o construir algo nuevo. En Ferretería El Tornillo encuentras herramientas y materiales para pasar de la idea a la obra.</p>
+            <div class="presentacion-acciones">
+                <a class="boton boton-primario" href="{% url 'catalogo:lista' %}">Ver catálogo <svg class="icono" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            </div>
+            <p class="presentacion-ayuda">Consulta precios y stock sin crear una cuenta.</p>
+        </div>
+        <figure class="presentacion-imagen">
+            <img src="{% static 'catalogo/img/landing/deposit-hero.webp' %}" alt="Trabajador de construcción con casco y martillo" width="600" height="410" fetchpriority="high">
+            <figcaption><span>Todo empieza con una buena herramienta.</span><small>Imagen referencial</small></figcaption>
+        </figure>
+    </div>
+</section>
+<section class="historia-inicio" id="historia" aria-labelledby="titulo-historia" tabindex="-1">
+    <div class="contenedor historia-interior">
+        <div class="historia-sello" aria-hidden="true">ET</div>
+        <div class="historia-texto">
+            <h2 id="titulo-historia">Nuestra historia empieza con una necesidad simple.</h2>
+            <p>Encontrar la herramienta correcta debería ser el primer paso de un proyecto, no un obstáculo. Por eso El Tornillo reúne productos claros, precios visibles y stock a la vista, para que puedas decidir con tranquilidad y avanzar a tu ritmo.</p>
+            <p>Sabemos que cada visita nace de una necesidad distinta: reparar algo que no puede esperar, renovar un rincón de la casa o comenzar una idea que llevabas tiempo imaginando. La tienda está pensada para acompañar esos momentos sin llenarte de pasos innecesarios.</p>
+            <p>Desde un arreglo cotidiano hasta una construcción hecha desde cero, aquí el trabajo empieza con una buena elección. Tú traes el proyecto; nosotros te ayudamos a encontrar por dónde empezar.</p>
+        </div>
+    </div>
+</section>
+<section class="proyectos-inicio contenedor" aria-labelledby="titulo-proyectos">
+    <header class="proyectos-cabecera">
+        <h2 id="titulo-proyectos">¿Qué tienes en mente?</h2>
+        <p>Una reparación pendiente. Una pared con otro color. Algo hecho por ti. Encuentra por dónde empezar.</p>
+    </header>
+    <div class="proyectos-opciones">
+        <a class="proyecto-enlace" href="{% url 'catalogo:lista' %}?categoria=Herramientas+manuales">
+            <img src="{% static 'catalogo/img/productos/producto-01.webp' %}" alt="" width="900" height="672" loading="lazy" decoding="async">
+            <div><h3>Resolver esa reparación</h3><p>Herramientas manuales para los arreglos de cada día.</p><span>Ver herramientas manuales <svg class="icono" aria-hidden="true"><use href="#i-arrow"/></svg></span></div>
+        </a>
+        <a class="proyecto-enlace" href="{% url 'catalogo:lista' %}?categoria=Pinturas">
+            <img src="{% static 'catalogo/img/productos/producto-18.webp' %}" alt="" width="900" height="672" loading="lazy" decoding="async">
+            <div><h3>Darle otro aire a tu espacio</h3><p>Pinturas, brochas y rodillos para renovar tus paredes.</p><span>Ver pinturas y accesorios <svg class="icono" aria-hidden="true"><use href="#i-arrow"/></svg></span></div>
+        </a>
+        <a class="proyecto-enlace" href="{% url 'catalogo:lista' %}?categoria=Herramientas+el%C3%A9ctricas">
+            <img src="{% static 'catalogo/img/productos/producto-09.webp' %}" alt="" width="900" height="672" loading="lazy" decoding="async">
+            <div><h3>Construir algo a tu manera</h3><p>Herramientas eléctricas para perforar, cortar y montar.</p><span>Ver herramientas eléctricas <svg class="icono" aria-hidden="true"><use href="#i-arrow"/></svg></span></div>
+        </a>
+    </div>
+</section>
+<section class="guia-compra" id="como-comprar" aria-labelledby="titulo-como-comprar" tabindex="-1">
+    <div class="contenedor guia-compra-interior">
+        <div class="guia-compra-titulo">
+            <h2 id="titulo-como-comprar">Empieza a tu ritmo.</h2>
+            <p>Compra de demostración, sin cobros ni envíos reales.</p>
+        </div>
+        <ol class="pasos-compra" role="list">
+            <li><h3>Explora sin registrarte</h3><p>Abre el catálogo y compara precios en pesos chilenos y stock disponible.</p></li>
+            <li><h3>Arma tu proyecto</h3><p>Agrega lo que necesitas al carrito. Puedes cambiar las cantidades antes de confirmar.</p></li>
+            <li><h3>Guarda tu pedido</h3><p>Inicia sesión o crea tu cuenta al finalizar. Después podrás revisar tus pedidos.</p></li>
+        </ol>
+    </div>
+</section>
+<section class="contacto-inicio" id="contacto" aria-labelledby="titulo-contacto" tabindex="-1">
+    <div class="contenedor contacto-interior">
+        <div>
+            <h2 id="titulo-contacto">¿Tienes una pregunta?</h2>
+            <p>Si necesitas revisar un producto, comparar alternativas o preparar un pedido de demostración, empieza por el catálogo. Allí puedes buscar por nombre, explorar categorías y comprobar el stock antes de decidir.</p>
+            <p>Cuando tengas tu selección lista, el carrito te permite revisar cantidades y total. Solo al confirmar tendrás que dejar tus datos de contacto; después podrás volver a tu cuenta para consultar el pedido.</p>
+        </div>
+        <div class="contacto-lado">
+            <ul class="contacto-rutas">
+                <li><strong>Antes de comprar</strong><span>Explora precios, categorías y disponibilidad sin registrarte.</span></li>
+                <li><strong>Mientras preparas tu pedido</strong><span>Ajusta cantidades desde el carrito antes de confirmar.</span></li>
+                <li><strong>Después de confirmar</strong><span>Ingresa a tu cuenta para revisar tus pedidos de demostración.</span></li>
+            </ul>
+            <div class="contacto-acciones">
+                <a class="boton boton-primario" href="{% url 'catalogo:lista' %}">Ver catálogo <svg class="icono" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                <a class="boton boton-secundario" href="{% url 'login' %}">Ingresar a mi cuenta</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="cierre-presentacion contenedor" aria-labelledby="titulo-cierre">
+    <div><h2 id="titulo-cierre">Tu idea ya tiene por dónde empezar.</h2><p>Encuentra las herramientas y materiales para el siguiente paso.</p></div>
+    <a class="boton boton-primario" href="{% url 'catalogo:lista' %}">Ver catálogo <svg class="icono" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+</section>

@@ -47,6 +47,38 @@ class DatosCatalogoTests(CatalogoAisladoMixin, SimpleTestCase):
             self.assertTrue(campos_requeridos.issubset(producto))
 
 
+class InicioTests(CatalogoAisladoMixin, SimpleTestCase):
+    def test_portada_presenta_la_tienda_y_enlaza_al_catalogo_separado(self):
+        self.assertEqual(reverse("catalogo:inicio"), "/")
+        self.assertEqual(reverse("catalogo:lista"), "/catalogo/")
+        response = self.client.get(reverse("catalogo:inicio"))
+
+        self.assertTemplateUsed(response, "catalogo/inicio.html")
+        self.assertContains(response, 'id="titulo-inicio"')
+        self.assertContains(response, 'href="/catalogo/"')
+        self.assertContains(response, "Ver catálogo")
+        self.assertContains(response, "catalogo/img/landing/deposit-hero.webp")
+        self.assertContains(response, 'id="historia"')
+        self.assertContains(response, 'id="contacto"')
+        self.assertContains(response, "Nuestra historia")
+        self.assertContains(response, "¿Tienes una pregunta?")
+        self.assertContains(response, "Sabemos que cada visita nace de una necesidad distinta")
+        self.assertContains(response, "Antes de comprar")
+        self.assertContains(response, "Después de confirmar")
+        self.assertNotContains(response, "data-producto")
+        self.assertNotContains(response, 'id="filtros-catalogo"')
+        self.assertNotContains(response, 'id="productos"')
+
+    def test_catalogo_independiente_mantiene_productos_y_acceso_al_inicio(self):
+        response = self.client.get(reverse("catalogo:lista"))
+
+        self.assertTemplateUsed(response, "catalogo/lista.html")
+        self.assertContains(response, "data-producto", count=40)
+        self.assertContains(response, 'href="/" aria-label="El Tornillo, inicio"')
+        self.assertNotContains(response, 'id="titulo-inicio"')
+        self.assertNotContains(response, 'id="como-comprar"')
+
+
 class ListaProductosTests(CatalogoAisladoMixin, SimpleTestCase):
     def test_lista_muestra_todos_los_productos_y_el_resumen(self):
         response = self.client.get(reverse("catalogo:lista"))

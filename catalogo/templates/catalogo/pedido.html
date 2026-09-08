@@ -51,7 +51,7 @@
             {% if user.is_staff %}
                 <a class="boton boton-primario" href="{% url 'catalogo:pedidos_gestion' %}">Volver a pedidos de la tienda</a>
             {% else %}
-                <a class="boton boton-primario" href="{% url 'catalogo:lista' %}">Seguir comprando</a>
+                <a class="boton boton-primario" href="{% url 'catalogo:lista' %}#productos">Seguir comprando</a>
                 <a class="boton boton-secundario" href="{% url 'catalogo:cuenta' %}">Mis pedidos</a>
             {% endif %}
         </div>

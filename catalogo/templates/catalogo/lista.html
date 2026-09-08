@@ -1,6 +1,7 @@
 {% extends 'catalogo/base.html' %}
+{% block title %}Catálogo de herramientas y materiales | El Tornillo{% endblock %}
 {% block content %}
-<div class="contenedor seccion-productos" id="productos">
+<div class="contenedor seccion-productos" id="productos" tabindex="-1">
     <div class="catalogo-layout">
         <aside class="filtros-panel" aria-label="Categorías y filtros">
             <details class="filtros-desplegable" open>
@@ -28,7 +29,7 @@
         </aside>
         <section class="catalogo-resultados" aria-labelledby="titulo-productos">
             <header class="cabecera-catalogo">
-                <h1 id="titulo-productos">Manos a la obra.</h1>
+                <h1 id="titulo-productos">Nuestro catálogo.</h1>
                 <p class="resumen-catalogo"><span><strong>{{ total_productos }}</strong> productos</span><span><strong>{{ con_stock }}</strong> con stock</span><span><strong>{{ sin_stock }}</strong> agotados</span><span><strong>{{ total_categorias }}</strong> categorías</span></p>
             </header>
             <div class="barra-resultados">

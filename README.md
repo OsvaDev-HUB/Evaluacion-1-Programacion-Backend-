@@ -4,6 +4,7 @@ Proyecto desarrollado con Django para la Evaluación Sumativa 1 de Programación
 
 ## Funcionalidades principales
 
+- Landing de presentación con ideas de proyectos, nuestra historia, contacto, guía de compra y botón hacia el catálogo independiente.
 - Catálogo completo con nombre, categoría, precio y stock de cada producto.
 - Datos cargados desde `data/catalogo.json` en la vista de Django.
 - Listado generado con un bucle en el template.
@@ -53,7 +54,11 @@ Ambas cuentas ingresan desde <http://127.0.0.1:8000/cuenta/ingresar/>. Los usuar
 
 ## Rutas principales
 
-- `/`: catálogo de productos.
+- `/`: landing de presentación de la ferretería.
+- `/catalogo/`: catálogo de productos con búsqueda, filtros y orden.
+- `/#historia`: sección Nuestra historia.
+- `/#como-comprar`: guía de compra de demostración.
+- `/#contacto`: sección de contacto y orientación para pedidos.
 - `/carrito/`: carrito de compras.
 - `/cuenta/ingresar/`: ingreso de clientes y administrador.
 - `/cuenta/registro/`: registro de clientes.

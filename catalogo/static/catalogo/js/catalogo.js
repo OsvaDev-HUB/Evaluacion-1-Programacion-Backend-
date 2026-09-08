@@ -51,8 +51,25 @@
             document.querySelectorAll('.grilla-productos > .tarjeta-producto').forEach(tarjeta => {
                 observador.observe(tarjeta);
             });
+
+            // La portada usa la misma cascada que el catálogo, pero por bloques:
+            // cada sección entra al acercarse al viewport y sus elementos se
+            // espacian apenas para conservar el ritmo de lectura.
+            const cascadasPresentacion = [
+                '.historia-sello',
+                '.historia-texto',
+                '.proyectos-cabecera',
+                '.proyectos-opciones > .proyecto-enlace',
+                '.guia-compra-titulo',
+                '.pasos-compra > li',
+                '.contacto-interior > div',
+                '.cierre-presentacion > *',
+            ];
+            cascadasPresentacion.flatMap(selector => [...document.querySelectorAll(selector)]).forEach(elemento => {
+                observador.observe(elemento);
+            });
         }
-        document.querySelectorAll('.cabecera-seccion, .ficha-imagen, .ficha-contenido, .formulario-acceso').forEach((elemento, indice) => {
+        document.querySelectorAll('.cabecera-seccion, .ficha-imagen, .ficha-contenido, .formulario-acceso, .presentacion-texto, .presentacion-imagen').forEach((elemento, indice) => {
             animar(elemento, entrada, { delay: indice * 70, fill: 'backwards' });
         });
     }

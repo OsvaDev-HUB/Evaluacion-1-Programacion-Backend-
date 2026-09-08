@@ -69,6 +69,10 @@ def resumen(productos):
             "sin_stock": len(productos) - con_stock, "total_categorias": len(categorias)}
 
 
+def inicio(request):
+    return render(request, "catalogo/inicio.html")
+
+
 def lista_productos(request):
     productos = cargar_productos()
     filtrados, filtros = filtrar_productos(productos, request)

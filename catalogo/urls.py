@@ -3,7 +3,8 @@ from . import views
 
 app_name = "catalogo"
 urlpatterns = [
-    path("", views.lista_productos, name="lista"),
+    path("", views.inicio, name="inicio"),
+    path("catalogo/", views.lista_productos, name="lista"),
     path("producto/<int:producto_id>/", views.detalle_producto, name="detalle"),
     path("carrito/", views.carrito, name="carrito"),
     path("carrito/<int:producto_id>/", views.modificar_carrito, name="modificar_carrito"),
