@@ -56,9 +56,9 @@
             // cada sección entra al acercarse al viewport y sus elementos se
             // espacian apenas para conservar el ritmo de lectura.
             const cascadasPresentacion = [
-                '.historia-sello',
-                '.historia-texto',
-                '.proyectos-cabecera',
+                '.cabecera-inicio',
+                '.pasillos-grilla > li',
+                '.historia-interior > *',
                 '.proyectos-opciones > .proyecto-enlace',
                 '.guia-compra-titulo',
                 '.pasos-compra > li',

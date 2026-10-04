@@ -69,8 +69,41 @@ def resumen(productos):
             "sin_stock": len(productos) - con_stock, "total_categorias": len(categorias)}
 
 
+# Producto cuya foto representa cada categoría en la portada.
+FOTOS_CATEGORIAS = {
+    "Herramientas manuales": 5,
+    "Herramientas eléctricas": 8,
+    "Fijaciones": 11,
+    "Pinturas": 16,
+    "Electricidad": 21,
+    "Gasfitería": 26,
+    "Construcción": 31,
+    "Seguridad": 38,
+}
+
+
+def categorias_portada(productos):
+    """Arma una celda por categoría con su foto, total de productos y stock."""
+    categorias = []
+    for nombre in sorted({p["categoria"] for p in productos}):
+        grupo = [p for p in productos if p["categoria"] == nombre]
+        id_foto = FOTOS_CATEGORIAS.get(nombre)
+        producto_foto = next((p for p in grupo if p["id"] == id_foto), grupo[0])
+        categorias.append({
+            "nombre": nombre,
+            "producto": producto_foto,
+            "total": len(grupo),
+            "con_stock": sum(p["stock"] > 0 for p in grupo),
+        })
+    return categorias
+
+
 def inicio(request):
-    return render(request, "catalogo/inicio.html")
+    productos = cargar_productos()
+    return render(request, "catalogo/inicio.html", {
+        **resumen(productos),
+        "categorias_portada": categorias_portada(productos),
+    })
 
 
 def lista_productos(request):
