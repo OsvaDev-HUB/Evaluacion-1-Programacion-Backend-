@@ -41,3 +41,6 @@ Public/
 
 # Archivos locales de diseño y contexto de Impeccable
 .impeccable/
+
+# Fotos subidas desde la administración
+media/

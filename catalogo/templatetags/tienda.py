@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 
 register = template.Library()
 
@@ -29,6 +30,13 @@ def imagen_producto(producto):
     if isinstance(producto_id, int) and 1 <= producto_id <= 40:
         return f"catalogo/img/productos/producto-{producto_id:02d}.webp"
     return ""
+
+
+@register.filter
+def foto_subida(producto):
+    """URL de la foto que subió el administrador, o texto vacío si no tiene."""
+    ruta = producto.get("foto")
+    return settings.MEDIA_URL + ruta if ruta else ""
 
 
 @register.filter

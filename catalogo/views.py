@@ -9,6 +9,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.core.files.storage import default_storage
 from django.db import IntegrityError
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
@@ -300,18 +301,39 @@ def producto_formulario(request, producto_id=None):
     productos = cargar_productos()
     producto = buscar_producto(productos, producto_id) if producto_id is not None else None
     inicial = {**producto, "ilustracion": ilustracion(producto)} if producto else {"stock": 0, "ilustracion": "caja"}
-    form = ProductoForm(request.POST or None, initial=inicial)
+    form = ProductoForm(request.POST or None, request.FILES or None, initial=inicial)
     if request.method == "POST" and form.is_valid():
+        campos = dict(form.cleaned_data)
+        foto = campos.pop("foto")
+        quitar_foto = campos.pop("quitar_foto")
         with editar_tienda() as datos:
             if producto:
                 actual = buscar_producto(datos["productos"], producto_id)
-                actual.update(form.cleaned_data)
+                actual.update(campos)
             else:
-                datos["productos"].append({"id": datos["siguiente_id"], **form.cleaned_data})
+                actual = {"id": datos["siguiente_id"], **campos}
+                datos["productos"].append(actual)
                 datos["siguiente_id"] += 1
+            # Una foto nueva reemplaza a la anterior; también se puede quitar
+            if foto or quitar_foto:
+                borrar_foto(actual.pop("foto", None))
+            if foto:
+                actual["foto"] = guardar_foto(foto, actual["id"])
         messages.success(request, "Producto actualizado." if producto else "Producto creado.")
         return redirect("catalogo:gestion")
     return render(request, "catalogo/producto_formulario.html", {"form": form, "producto": producto, **resumen(productos)})
+
+
+def guardar_foto(archivo, producto_id):
+    """Guarda la foto en media/productos/ y devuelve su ruta para el JSON."""
+    extension = archivo.name.rsplit(".", 1)[-1].lower().replace("jpeg", "jpg")
+    nombre = f"productos/producto-{producto_id}-{secrets.token_hex(4)}.{extension}"
+    return default_storage.save(nombre, archivo)
+
+
+def borrar_foto(ruta):
+    if ruta and default_storage.exists(ruta):
+        default_storage.delete(ruta)
 
 
 @administrador_requerido
@@ -321,6 +343,7 @@ def eliminar_producto(request, producto_id):
         with editar_tienda() as datos:
             buscar_producto(datos["productos"], producto_id)
             datos["productos"] = [p for p in datos["productos"] if p["id"] != producto_id]
+        borrar_foto(producto.get("foto"))
         messages.success(request, "Producto eliminado de la tienda.")
         return redirect("catalogo:gestion")
     return render(request, "catalogo/eliminar_producto.html", {"producto": producto})

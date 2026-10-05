@@ -410,7 +410,34 @@ textarea { resize: vertical; }
 .formulario-panel { background: var(--papel); padding: 36px; border: 1px solid var(--borde); }
 .formulario-panel > h1, .formulario-panel > h2 { margin-bottom: 16px; }
 .estrecho { max-width: 580px; margin-inline: auto; }
-.formulario-producto { max-width: 760px; margin-inline: auto; }
+.formulario-producto { max-width: 1040px; margin-inline: auto; }
+/* Crear y editar producto: foto a la izquierda y campos en grilla a la derecha. */
+.producto-cabecera { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px 24px; margin-bottom: 24px; padding-bottom: 22px; border-bottom: 1px solid var(--borde); }
+.producto-cabecera .acciones-formulario { margin-top: 0; }
+.producto-grilla { display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr); align-items: start; gap: 32px; }
+.producto-campos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
+.producto-campos .campo-formulario { min-width: 0; margin: 0 0 16px; }
+.producto-campos .campo-nombre, .producto-campos .campo-descripcion { grid-column: 1 / -1; }
+.producto-campos .campo-descripcion { margin-bottom: 0; }
+.producto-campos textarea { min-height: 104px; }
+/* Zona de foto: celda blanca como la tarjeta del catálogo, sirve de vista previa. */
+.zona-foto { position: relative; display: flex; flex-direction: column; margin: 0; border: 1px dashed var(--borde-fuerte); background: var(--papel); font: inherit; cursor: pointer; transition: border-color var(--rapida), background-color var(--rapida); }
+.zona-foto-vista { position: relative; display: block; aspect-ratio: 1 / 1.08; overflow: hidden; }
+.zona-foto-actual { position: absolute; inset: 0; display: grid; place-items: center; }
+.zona-foto-actual > .icono { width: 40px; height: 40px; color: var(--secundario); transition: transform var(--movimiento), color var(--rapida); }
+.zona-foto-vista .imagen-producto, .zona-foto-vista .ilustracion-producto { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; padding: 18px; object-fit: contain; }
+.zona-foto-texto { display: grid; gap: 4px; padding: 14px 16px; border-top: 1px solid var(--borde); }
+.zona-foto-texto strong { color: var(--tinta); font: 600 1.15rem/1.2 var(--titulo); transition: color var(--rapida); }
+.zona-foto-texto small { color: var(--secundario); font-size: .78rem; font-weight: 400; line-height: 1.4; }
+.zona-foto input[type='file'] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.zona-foto:hover, .zona-foto.arrastrando { border-color: var(--acento); }
+.zona-foto.arrastrando { border-style: solid; background: var(--panel); }
+.zona-foto:is(:hover, .arrastrando) strong, .zona-foto:is(:hover, .arrastrando) .zona-foto-actual > .icono { color: var(--acento); }
+.zona-foto.arrastrando .zona-foto-actual > .icono { transform: scale(1.2); }
+.zona-foto:focus-within { outline: 2px solid var(--acento); outline-offset: 4px; }
+.zona-foto-estado { min-height: 1.3em; margin-top: 8px; color: var(--verde); font-size: .8rem; }
+.zona-foto-estado.error { color: var(--rojo); }
+.quitar-foto { display: flex; align-items: center; gap: 8px; margin: 4px 0 0; font-size: .85rem; font-weight: 400; }
 .acciones-formulario { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 26px; }
 .cabecera-seccion .acciones-formulario { margin-top: 0; }
 .compra-layout { display: grid; grid-template-columns: minmax(0, 1fr) 350px; gap: 40px; align-items: start; }
@@ -668,6 +695,11 @@ textarea { resize: vertical; }
     /* Apilado, el borde superior de los hexágonos se desvanece en vez de cortarse en línea recta. */
     .presentacion-hexagonos { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%); mask-image: linear-gradient(to bottom, transparent, #000 22%); }
     .presentacion-regla { grid-row: 3; }
+    /* Producto: la foto pasa arriba, en una fila con su texto al lado. */
+    .producto-grilla { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .zona-foto { flex-direction: row; }
+    .zona-foto-vista { flex: 0 0 140px; }
+    .zona-foto-texto { align-content: center; border-top: 0; border-left: 1px solid var(--borde); }
 }
 @media (max-width: 640px) {
     .presentacion-texto { padding-top: 24px; }
@@ -753,6 +785,9 @@ textarea { resize: vertical; }
     .estado-vacio.con-foto img { max-width: 200px; max-height: 240px; margin-inline: auto; }
     .acceso-foto { flex-basis: 180px; margin: -14px -28px -28px; }
     .formulario-registro { grid-template-columns: minmax(0, 1fr); }
+    .producto-campos { grid-template-columns: minmax(0, 1fr); }
+    .producto-cabecera .acciones-formulario { width: 100%; }
+    .producto-cabecera .acciones-formulario .boton { flex: 1; }
     .registro-encabezado h2 { font-size: 3rem; }
     .registro-encabezado .marca-sello { height: 44px; }
     .panel-registro .acceso-foto { margin-top: -5px; }

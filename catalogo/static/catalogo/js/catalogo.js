@@ -96,6 +96,62 @@
         }
     }
 
+    // Foto del producto: se elige o se arrastra, y se muestra al tiro como en la tarjeta.
+    const zonaFoto = document.querySelector('[data-zona-foto]');
+    if (zonaFoto) {
+        const entradaFoto = zonaFoto.querySelector('input[type="file"]');
+        const vistaPrevia = zonaFoto.querySelector('[data-vista-previa]');
+        const fotoActual = zonaFoto.querySelector('[data-foto-actual]');
+        const estadoFoto = document.querySelector('[data-estado-foto]');
+        const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
+        const tamanoMaximo = 5 * 1024 * 1024;
+        const avisar = (mensaje, error = false) => {
+            estadoFoto.textContent = mensaje;
+            estadoFoto.classList.toggle('error', error);
+        };
+        const mostrarFoto = archivo => {
+            if (!archivo) return;
+            if (!tiposPermitidos.includes(archivo.type)) {
+                entradaFoto.value = '';
+                avisar('Elige una imagen JPG, PNG o WebP.', true);
+                return;
+            }
+            if (archivo.size > tamanoMaximo) {
+                entradaFoto.value = '';
+                avisar('La foto pesa más de 5 MB. Elige una imagen más liviana.', true);
+                return;
+            }
+            if (vistaPrevia.src.startsWith('blob:')) URL.revokeObjectURL(vistaPrevia.src);
+            vistaPrevia.src = URL.createObjectURL(archivo);
+            vistaPrevia.hidden = false;
+            fotoActual.hidden = true;
+            avisar(`Foto lista: ${archivo.name}`);
+            zonaFoto.querySelector('.zona-foto-texto strong').textContent = 'Cambiar foto';
+            animar(vistaPrevia, [
+                { opacity: 0, transform: 'scale(.94)' },
+                { opacity: 1, transform: 'scale(1)' },
+            ], { duration: 320 });
+        };
+        entradaFoto.addEventListener('change', () => mostrarFoto(entradaFoto.files[0]));
+        ['dragenter', 'dragover'].forEach(tipo => zonaFoto.addEventListener(tipo, event => {
+            event.preventDefault();
+            zonaFoto.classList.add('arrastrando');
+        }));
+        ['dragleave', 'drop'].forEach(tipo => zonaFoto.addEventListener(tipo, () => {
+            zonaFoto.classList.remove('arrastrando');
+        }));
+        zonaFoto.addEventListener('drop', event => {
+            event.preventDefault();
+            const archivo = event.dataTransfer.files[0];
+            if (!archivo) return;
+            // El archivo arrastrado se pasa al campo para que viaje con el formulario.
+            const lista = new DataTransfer();
+            lista.items.add(archivo);
+            entradaFoto.files = lista.files;
+            mostrarFoto(archivo);
+        });
+    }
+
     // Al enviar, el botón muestra que se está trabajando y no se puede enviar dos veces.
     document.querySelectorAll('[data-texto-envio]').forEach(boton => {
         const textoOriginal = boton.textContent;

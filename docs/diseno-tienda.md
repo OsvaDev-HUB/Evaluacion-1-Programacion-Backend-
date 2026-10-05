@@ -41,6 +41,12 @@ La página de registro usa la misma estructura que el inicio de sesión: formula
 
 Inicio de sesión y registro comparten una entrada coordinada: el contenido del panel oscuro y los campos del formulario aparecen en cascada, la línea divisoria del panel se dibuja de izquierda a derecha como la regla del hero y los maestros suben desde el borde inferior. El campo que ya tiene el foco no se anima. Al interactuar, la etiqueta del campo activo se vuelve naranja y el borde reacciona al puntero; al enviar, el botón cambia a «Ingresando…» o «Creando cuenta…», queda marcado como ocupado y no permite un segundo envío. Con movimiento reducido no hay animaciones.
 
+## Crear y editar producto
+
+El formulario de administración usa dos columnas en un panel de hasta 1040px. A la izquierda, una zona de foto con el mismo formato de la tarjeta del catálogo sirve de vista previa: se puede hacer clic o arrastrar una imagen, y se muestra al instante. A la derecha, los campos van en grilla (nombre a todo el ancho; categoría y precio; stock e ilustración; descripción a todo el ancho). Los botones Cancelar y Crear producto quedan en el encabezado. En celular la foto queda en una fila con su texto y los campos se apilan.
+
+La foto es opcional. El servidor acepta JPG, PNG o WebP de hasta 5 MB y revisa los primeros bytes del archivo para confirmar que es una imagen; no se agregó ninguna dependencia nueva. Las fotos se guardan en `media/productos/` (carpeta ignorada por git) y su ruta queda en el campo `foto` del producto. Si un producto tiene foto, el catálogo, la ficha, el carrito y la administración la usan antes que la foto original o la ilustración. Al editar se puede reemplazar o quitar, y al eliminar el producto también se borra su archivo.
+
 ## Interacción y adaptación
 
 La marca y los enlaces Inicio llevan a `/`; «Ver catálogo» lleva a `/catalogo/`. Nuestra historia, la guía y Contacto se encuentran en `/#historia`, `/#como-comprar` y `/#contacto`. Búsquedas, filtros, orden y enlaces «Seguir comprando» permanecen dentro de `/catalogo/`, con `#productos` cuando corresponde. Los enlaces nativos funcionan sin JavaScript y los saltos respetan la cabecera fija y el movimiento reducido.

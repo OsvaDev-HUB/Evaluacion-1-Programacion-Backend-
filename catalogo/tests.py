@@ -3,6 +3,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 
@@ -283,6 +284,30 @@ class TiendaTests(CatalogoAisladoMixin, TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertTrue(response.context["form"].errors)
         self.assertEqual(len(cargar_productos()), 40)
+
+    def test_admin_sube_foto_del_producto_y_se_borra_al_eliminarlo(self):
+        with TemporaryDirectory() as carpeta, override_settings(MEDIA_ROOT=carpeta):
+            self.client.force_login(self.administrador)
+            # Basta con el encabezado de un PNG para la validación del formulario
+            foto = SimpleUploadedFile("taladro.png", b"\x89PNG\r\n\x1a\n" + b"\x00" * 32, content_type="image/png")
+            response = self.client.post(reverse("catalogo:crear_producto"), {**self.datos_producto, "foto": foto})
+            self.assertRedirects(response, reverse("catalogo:gestion"))
+            creado = cargar_productos()[-1]
+            self.assertTrue(creado["foto"].startswith("productos/"))
+            self.assertTrue((Path(carpeta) / creado["foto"]).exists())
+            self.assertContains(self.client.get(reverse("catalogo:detalle", args=[creado["id"]])), "/media/" + creado["foto"])
+            self.client.post(reverse("catalogo:eliminar_producto", args=[creado["id"]]))
+            self.assertFalse((Path(carpeta) / creado["foto"]).exists())
+
+    def test_admin_no_puede_subir_archivos_que_no_son_imagenes(self):
+        with TemporaryDirectory() as carpeta, override_settings(MEDIA_ROOT=carpeta):
+            self.client.force_login(self.administrador)
+            for nombre, contenido in (("notas.txt", b"hola"), ("falsa.png", b"no es una imagen")):
+                archivo = SimpleUploadedFile(nombre, contenido)
+                response = self.client.post(reverse("catalogo:crear_producto"), {**self.datos_producto, "foto": archivo})
+                self.assertEqual(response.status_code, 200)
+                self.assertIn("foto", response.context["form"].errors)
+            self.assertEqual(len(cargar_productos()), 40)
 
     def test_checkout_exige_login_y_carrito(self):
         response = self.client.get(reverse("catalogo:checkout"))
