@@ -7,9 +7,11 @@
     <meta name="description" content="Herramientas y materiales para tu próximo proyecto. Explora el catálogo de Ferretería El Tornillo.">
     <meta name="theme-color" content="#222724">
     <title>{% block title %}Ferretería El Tornillo | Tienda online{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'catalogo/img/marca/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'catalogo/img/marca/apple-touch-icon.png' %}">
     <link rel="preload" href="{% static 'catalogo/fonts/LeagueGothic.ttf' %}" as="font" type="font/ttf" crossorigin>
-    <link rel="stylesheet" href="{% static 'catalogo/css/estilos.css' %}?v=9-portada-celdas">
-    <script src="{% static 'catalogo/js/catalogo.js' %}?v=8-portada-celdas" defer></script>
+    <link rel="stylesheet" href="{% static 'catalogo/css/estilos.css' %}?v=28-registro-logo">
+    <script src="{% static 'catalogo/js/catalogo.js' %}?v=10-preguntas" defer></script>
 </head>
 <body>
     {% include 'catalogo/componentes/iconos.html' %}
@@ -17,6 +19,7 @@
     <header class="encabezado-sitio">
         <div class="contenedor barra-navegacion">
             <a class="marca" href="{% url 'catalogo:inicio' %}" aria-label="El Tornillo, inicio">
+                <img class="marca-logo" src="{% static 'catalogo/img/marca/logo.webp' %}" alt="" width="211" height="240">
                 <span class="marca-texto"><small>Ferretería</small><strong>El Tornillo</strong></span>
             </a>
             {% block navegacion_cabecera %}
@@ -66,8 +69,8 @@
     </div>
     <footer class="pie-sitio">
         <div class="contenedor pie-contenido">
-            <div><a class="marca marca-pie" href="{% url 'catalogo:inicio' %}"><strong>El Tornillo</strong></a><p>Todo empieza con una buena herramienta.</p></div>
-            <nav aria-label="Enlaces del pie"><a href="{% url 'catalogo:inicio' %}">Inicio</a><a href="{% url 'catalogo:inicio' %}#historia">Nuestra historia</a><a href="{% url 'catalogo:inicio' %}#como-comprar">Cómo comprar</a><a href="{% url 'catalogo:inicio' %}#contacto">Contacto</a><a href="{% url 'catalogo:lista' %}">Catálogo</a><a href="{% url 'catalogo:carrito' %}">Mi carrito</a><a href="{% url 'login' %}?next={% url 'catalogo:gestion' %}">Acceso de administración</a></nav>
+            <div><a class="marca marca-pie" href="{% url 'catalogo:inicio' %}"><img class="marca-logo" src="{% static 'catalogo/img/marca/logo.webp' %}" alt="" width="211" height="240" loading="lazy"><strong>El Tornillo</strong></a><p>Todo empieza con una buena herramienta.</p></div>
+            <nav aria-label="Enlaces del pie"><a href="{% url 'catalogo:inicio' %}">Inicio</a><a href="{% url 'catalogo:inicio' %}#como-comprar">Cómo comprar</a><a href="{% url 'catalogo:inicio' %}#historia">Nuestra historia</a><a href="{% url 'catalogo:inicio' %}#contacto">Contacto</a><a href="{% url 'catalogo:inicio' %}#preguntas">Preguntas frecuentes</a><a href="{% url 'catalogo:lista' %}">Catálogo</a><a href="{% url 'catalogo:carrito' %}">Mi carrito</a><a href="{% url 'login' %}?next={% url 'catalogo:gestion' %}">Acceso de administración</a></nav>
         </div>
         <div class="contenedor pie-legal"><span>Ferretería El Tornillo</span><span>Tienda de demostración · Precios en pesos chilenos</span></div>
     </footer>

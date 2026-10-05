@@ -62,8 +62,9 @@
                 '.proyectos-opciones > .proyecto-enlace',
                 '.guia-compra-titulo',
                 '.pasos-compra > li',
-                '.contacto-interior > div',
-                '.cierre-presentacion > *',
+                '.contacto-grilla > *',
+                '.preguntas-cabecera',
+                '.preguntas-lista > details',
             ];
             cascadasPresentacion.flatMap(selector => [...document.querySelectorAll(selector)]).forEach(elemento => {
                 observador.observe(elemento);

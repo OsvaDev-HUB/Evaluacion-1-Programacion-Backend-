@@ -14,6 +14,13 @@ class RegistroForm(UserCreationForm):
         model = get_user_model()
         fields = ("first_name", "email", "username", "password1", "password2")
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Textos de ayuda breves para que el formulario no sea tan largo
+        self.fields["username"].help_text = "Solo letras, números y los signos @ . + - _"
+        self.fields["password1"].help_text = "Mínimo 8 caracteres, que no sea solo números ni una clave común."
+        self.fields["password2"].help_text = ""
+
     def clean_username(self):
         username = super().clean_username()
         if username and buscar_usuario(username):
