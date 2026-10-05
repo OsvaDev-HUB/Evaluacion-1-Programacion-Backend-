@@ -367,7 +367,7 @@ textarea { resize: vertical; }
 .marca-sello { display: block; align-self: flex-start; width: auto; height: 56px; }
 .acceso-presentacion > h2 { font: 400 4rem/1 var(--rotulo); margin-block: 24px 20px; }
 .acceso-presentacion > p { font-size: .95rem; color: #d0d7d0; }
-.acceso-administrador { display: flex; gap: 15px; border-top: 1px solid #647065; padding-top: 26px; margin-top: 36px; }
+.acceso-administrador { position: relative; display: flex; gap: 15px; padding-top: 26px; margin-top: 36px; }
 .acceso-presentacion { display: flex; flex-direction: column; }
 /* Crear cuenta: misma estructura del login, con el formulario en dos columnas. */
 .formulario-registro { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
@@ -376,7 +376,15 @@ textarea { resize: vertical; }
 .formulario-registro input:not([type='hidden']) { width: 100%; }
 .formulario-registro .ayuda-campo { margin-top: 6px; font-size: .75rem; line-height: 1.4; }
 .formulario-registro > .boton { margin-top: 6px; }
-.beneficios-cuenta { display: grid; gap: 12px; margin: 26px 0 0; padding: 22px 0 0; list-style: none; border-top: 1px solid #647065; }
+/* Respuesta al usuario: el campo activo resalta su etiqueta y el borde reacciona al puntero. */
+.formulario-acceso label { transition: color var(--rapida); }
+.formulario-acceso .campo-formulario:focus-within label { color: var(--acento); }
+.formulario-acceso input:not([type='hidden']) { transition: border-color var(--rapida); }
+.formulario-acceso input:not([type='hidden']):hover { border-color: var(--tinta); }
+.formulario-acceso .boton[aria-busy='true'] { opacity: .85; }
+.beneficios-cuenta { position: relative; display: grid; gap: 12px; margin: 26px 0 0; padding: 22px 0 0; list-style: none; }
+/* Línea divisoria del panel: se dibuja al cargar, igual que la regla del hero. */
+.acceso-administrador::before, .beneficios-cuenta::before { content: ''; position: absolute; inset: 0 0 auto; height: 1px; background: #647065; }
 .beneficios-cuenta li { display: flex; align-items: flex-start; gap: 10px; color: #d0d7d0; font-size: .875rem; line-height: 1.45; }
 .beneficios-cuenta .icono { width: 18px; height: 18px; margin-top: 1px; color: #f4aa91; }
 .registro-encabezado { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
@@ -766,6 +774,7 @@ textarea { resize: vertical; }
     .movimiento-activo .cabecera-catalogo::after { transform-origin: left; animation: desplegar-regla var(--entrada) both; }
     .movimiento-activo .cabecera-catalogo h1 { animation: entrada-titulo var(--entrada) both; }
     .movimiento-activo .resumen-catalogo { animation: entrada-resumen 400ms ease-out 140ms backwards; }
+    .movimiento-activo :is(.acceso-administrador, .beneficios-cuenta)::before { transform-origin: left; animation: desplegar-regla 900ms cubic-bezier(.22, 1, .36, 1) 180ms both; }
     .movimiento-activo .presentacion-regla::before { transform-origin: left; animation: desplegar-regla 900ms cubic-bezier(.22, 1, .36, 1) 160ms both; }
 }
 @media (prefers-reduced-motion: reduce) {

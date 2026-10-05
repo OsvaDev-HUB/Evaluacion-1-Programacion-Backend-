@@ -70,10 +70,49 @@
                 observador.observe(elemento);
             });
         }
-        document.querySelectorAll('.cabecera-seccion, .ficha-imagen, .ficha-contenido, .formulario-acceso, .presentacion-texto, .presentacion-imagen').forEach((elemento, indice) => {
+        document.querySelectorAll('.cabecera-seccion, .ficha-imagen, .ficha-contenido, .presentacion-texto, .presentacion-imagen').forEach((elemento, indice) => {
             animar(elemento, entrada, { delay: indice * 70, fill: 'backwards' });
         });
+
+        // Inicio de sesión y registro: una sola entrada coordinada.
+        // El panel oscuro y el formulario entran en cascada y los maestros
+        // suben desde el borde inferior del panel.
+        const panelAcceso = document.querySelector('.panel-acceso');
+        if (panelAcceso) {
+            const enCascada = selector => [...panelAcceso.querySelectorAll(selector)]
+                .filter(elemento => !elemento.contains(document.activeElement));
+            enCascada('.acceso-presentacion > .marca-sello, .acceso-presentacion > h2, .acceso-presentacion > p, .registro-encabezado, .acceso-administrador, .beneficios-cuenta li')
+                .forEach((elemento, indice) => {
+                    animar(elemento, entrada, { delay: indice * 60, duration: 540, fill: 'backwards' });
+                });
+            enCascada('.formulario-acceso > h1, .formulario-acceso > p, .formulario-acceso .campo-formulario, .formulario-acceso .boton')
+                .forEach((elemento, indice) => {
+                    animar(elemento, entrada, { delay: 80 + indice * 45, duration: 540, fill: 'backwards' });
+                });
+            animar(panelAcceso.querySelector('.acceso-foto img'), [
+                { opacity: 0, transform: 'translateY(48px)' },
+                { opacity: 1, transform: 'translateY(0)' },
+            ], { delay: 260, duration: 820, easing: 'cubic-bezier(.16, 1, .3, 1)', fill: 'backwards' });
+        }
     }
+
+    // Al enviar, el botón muestra que se está trabajando y no se puede enviar dos veces.
+    document.querySelectorAll('[data-texto-envio]').forEach(boton => {
+        const textoOriginal = boton.textContent;
+        boton.form?.addEventListener('submit', event => {
+            if (!event.target.checkValidity()) return;
+            boton.setAttribute('aria-busy', 'true');
+            boton.textContent = boton.dataset.textoEnvio;
+            // Se desactiva después del envío para no cancelarlo.
+            setTimeout(() => { boton.disabled = true; });
+        });
+        // Si la persona vuelve con el botón Atrás, el botón queda como al principio.
+        window.addEventListener('pageshow', () => {
+            boton.disabled = false;
+            boton.removeAttribute('aria-busy');
+            boton.textContent = textoOriginal;
+        });
+    });
     // La interacción tiene prioridad: ningún control queda esperando su entrada.
     const terminarEntrada = event => {
         for (const [elemento, animacion] of animaciones) {

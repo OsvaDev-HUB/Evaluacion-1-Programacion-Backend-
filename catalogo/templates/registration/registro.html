@@ -10,7 +10,7 @@
             <form method="post" class="formulario-registro">
                 {% csrf_token %}{% include 'catalogo/componentes/campos.html' %}
                 <input type="hidden" name="next" value="{{ next }}">
-                <button class="boton boton-primario boton-ancho" type="submit">Crear cuenta</button>
+                <button class="boton boton-primario boton-ancho" type="submit" data-texto-envio="Creando cuenta…">Crear cuenta</button>
             </form>
             <p class="pie-formulario">¿Ya tienes cuenta? <a href="{% url 'login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Iniciar sesión</a></p>
         </div>

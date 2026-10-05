@@ -10,7 +10,7 @@
             <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}{% include 'catalogo/componentes/campos.html' %}
                 <input type="hidden" name="next" value="{{ next }}">
-                <button class="boton boton-primario boton-ancho" type="submit">Ingresar</button>
+                <button class="boton boton-primario boton-ancho" type="submit" data-texto-envio="Ingresando…">Ingresar</button>
             </form>
             <p class="pie-formulario">¿Primera vez aquí? <a href="{% url 'catalogo:registro' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Crear una cuenta</a></p>
         </div>
